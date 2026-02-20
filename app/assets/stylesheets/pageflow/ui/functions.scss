@@ -1,9 +1,19 @@
 @function space($name) {
-  @return map-get($size-scale, "#{$name}");
+  @return _size-lookup($name);
 }
 
 @function size($name) {
-  @return map-get($size-scale, "#{$name}");
+  @return _size-lookup($name);
+}
+
+@function _size-lookup($name) {
+  $key: "#{$name}";
+
+  @if str-slice($key, 1, 1) == "-" {
+    @return -1 * map-get($size-scale, str-slice($key, 2));
+  }
+
+  @return map-get($size-scale, $key);
 }
 
 $size-scale: (

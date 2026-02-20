@@ -1,33 +1,27 @@
 .color_input {
-  .minicolors {
+  .color_picker-field {
+    color: var(--placeholder-color, transparent);
     box-sizing: border-box;
     width: 100%;
   }
 
-  input {
-    padding-left: 30px;
+  .color_picker-field > input {
+    padding-left: size(8);
     width: 100%;
     height: auto;
   }
 
-  .minicolors-input-swatch {
-    top: 5px;
-    left: 5px;
-
-    .minicolors-swatch-color {
-      background-color: var(--placeholder-color);
-    }
+  .color_picker-field > span {
+    left: size(1.5);
+    width: size(5);
+    height: size(5);
   }
 
-  &.is_default input {
+  &.is_default .color_picker-field > input {
     color: var(--ui-on-surface-color-light);
   }
 
-  .minicolors-focus input {
+  .color_picker-field:focus-within > input {
     color: var(--ui-on-surface-color);
-  }
-
-  .minicolors-swatches .minicolors-swatch {
-    margin: 2px;
   }
 }

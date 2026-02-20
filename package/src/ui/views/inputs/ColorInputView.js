@@ -1,6 +1,8 @@
 import Marionette from 'backbone.marionette';
 import _ from 'underscore';
-import 'jquery.minicolors';
+import ColorPicker from '../ColorPicker';
+
+export {ColorPicker};
 
 import {inputView} from '../mixins/inputView';
 import {inputWithPlaceholderText} from '../mixins/inputWithPlaceholderText';
@@ -35,6 +37,11 @@ import template from '../../templates/inputs/colorInput.jst';
  *   is used as placeholderColor option, it will be passed the value of the
  *   placeholderColorBinding attribute each time it changes.
  *
+ * @param {boolean} [options.alpha]
+ *   Allow picking colors with alpha channel. When enabled, translucent
+ *   colors are stored in `#rrggbbaa` format. Fully opaque colors still
+ *   use `#rrggbb`.
+ *
  * @param {string[]} [options.swatches]
  *   Preset color values to be displayed inside the picker drop
  *   down. The default value, if present, is always used as the
@@ -52,27 +59,14 @@ export const ColorInputView = Marionette.ItemView.extend({
     input: 'input'
   },
 
-  events: {
-    'mousedown': 'refreshPicker'
-  },
-
   onRender: function() {
     this.setupAttributeBinding('placeholderColor', this.updatePlaceholderColor);
 
-    this.ui.input.minicolors({
-      changeDelay: 200,
-      change: _.bind(function(color) {
-        this._saving = true;
-
-        if (color === this.defaultValue()) {
-          this.model.unset(this.options.propertyName);
-        }
-        else {
-          this.model.set(this.options.propertyName, color);
-        }
-
-        this._saving = false;
-      }, this)
+    this._colorPicker = new ColorPicker(this.ui.input[0], {
+      alpha: this.options.alpha,
+      defaultValue: this.defaultValue(),
+      swatches: this.getSwatches(),
+      onChange: _.debounce(_.bind(this._onChange, this), 200)
     });
 
     this.listenTo(this.model, 'change:' + this.options.propertyName, this.load);
@@ -81,17 +75,20 @@ export const ColorInputView = Marionette.ItemView.extend({
       this.listenTo(this.model, 'change:' + this.options.defaultValueBinding, this.updateSettings);
     }
 
-    this.updateSettings();
+    this.load();
   },
 
   updatePlaceholderColor(value) {
-    this.el.style.setProperty('--placeholder-color', value);
+    if (value) {
+      this.el.style.setProperty('--placeholder-color', value);
+    }
+    else {
+      this.el.style.removeProperty('--placeholder-color');
+    }
   },
 
   updateSettings: function() {
-    this.resetSwatchesInStoredSettings();
-
-    this.ui.input.minicolors('settings', {
+    this._colorPicker.update({
       defaultValue: this.defaultValue(),
       swatches: this.getSwatches()
     });
@@ -99,27 +96,23 @@ export const ColorInputView = Marionette.ItemView.extend({
     this.load();
   },
 
-  // see https://github.com/claviska/jquery-minicolors/issues/287
-  resetSwatchesInStoredSettings: function() {
-    const settings = this.ui.input.data('minicolors-settings');
-
-    if (settings) {
-      delete settings.swatches;
-      this.ui.input.data('minicolors-settings', settings);
-    }
-  },
-
   load: function() {
+    var color = this.model.get(this.options.propertyName) || this.defaultValue() || '';
+
     if (!this._saving) {
-      this.ui.input.minicolors('value',
-                               this.model.get(this.options.propertyName) || this.defaultValue());
+      this.ui.input[0].value = color;
+
+      var wrapper = this.ui.input[0].parentNode;
+      if (wrapper && wrapper.classList.contains('color_picker-field')) {
+        wrapper.style.color = color;
+      }
     }
 
     this.$el.toggleClass('is_default', !this.model.has(this.options.propertyName));
   },
 
-  refreshPicker: function() {
-    this.ui.input.minicolors('value', {});
+  onBeforeClose: function() {
+    this._colorPicker.destroy();
   },
 
   getSwatches: function() {
@@ -146,5 +139,18 @@ export const ColorInputView = Marionette.ItemView.extend({
     else {
       return bindingValue;
     }
+  },
+
+  _onChange: function(color) {
+    this._saving = true;
+
+    if (!color || color === this.defaultValue()) {
+      this.model.unset(this.options.propertyName);
+    }
+    else {
+      this.model.set(this.options.propertyName, color);
+    }
+
+    this._saving = false;
   }
 });

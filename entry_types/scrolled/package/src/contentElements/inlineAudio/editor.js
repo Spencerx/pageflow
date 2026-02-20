@@ -54,6 +54,7 @@ editor.contentElementTypes.register('inlineAudio', {
       });
 
       this.input('waveformColor', ColorInputView, {
+        alpha: true,
         visibleBinding: 'playerControlVariant',
         visible: variant => variant?.startsWith('waveform'),
         defaultValue: themeOptions.properties?.root?.accent_color ||
