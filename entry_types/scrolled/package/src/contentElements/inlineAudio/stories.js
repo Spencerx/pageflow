@@ -62,6 +62,15 @@ storiesOfContentElement(module, {
         posterId: filePermaId('imageFiles', 'turtle'),
         caption: 'Some caption'
       }
+    },
+    {
+      name: 'with waveform and custom colors',
+      configuration: {
+        playerControlVariant: 'waveform',
+        waveformColor: '#1963ad',
+        remainingWaveformColor: '#e2ad1a',
+        waveformCursorColor: '#ff0000'
+      }
     }
   ],
   inlineFileRights: true

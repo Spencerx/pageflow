@@ -1,6 +1,14 @@
 import {editor, InlineFileRightsMenuItem} from 'pageflow-scrolled/editor';
 import {FileInputView, CheckBoxInputView} from 'pageflow/editor';
 import {SelectInputView, SeparatorView, ColorInputView} from 'pageflow/ui';
+import I18n from 'i18n-js';
+
+import {
+  defaultRemainingWaveformColor,
+  defaultRemainingWaveformColorInverted,
+  defaultWaveformCursorColor,
+  defaultWaveformCursorColorInverted
+} from '../../frontend/PlayerControls/WaveformPlayerControls/defaultColors';
 
 import pictogram from './pictogram.svg';
 
@@ -19,8 +27,9 @@ editor.contentElementTypes.register('inlineAudio', {
     });
   },
 
-  configurationEditor({entry}) {
+  configurationEditor({entry, contentElement}) {
     const themeOptions = entry.getTheme().get('options');
+    const invert = contentElement.section.configuration.get('invert');
 
     this.tab('general', function() {
       this.input('id', FileInputView, {
@@ -58,7 +67,28 @@ editor.contentElementTypes.register('inlineAudio', {
         visibleBinding: 'playerControlVariant',
         visible: variant => variant?.startsWith('waveform'),
         defaultValue: themeOptions.properties?.root?.accent_color ||
-                      themeOptions.colors?.accent
+                      themeOptions.colors?.accent,
+        swatches: entry.getUsedContentElementColors('waveformColor')
+      });
+
+      this.input('remainingWaveformColor', ColorInputView, {
+        alpha: true,
+        visibleBinding: 'playerControlVariant',
+        visible: variant => variant?.startsWith('waveform'),
+        placeholder: I18n.t('pageflow_scrolled.editor.content_elements.inlineAudio.attributes.remainingWaveformColor.auto'),
+        placeholderColor: invert ? defaultRemainingWaveformColorInverted
+                                 : defaultRemainingWaveformColor,
+        swatches: entry.getUsedContentElementColors('remainingWaveformColor')
+      });
+
+      this.input('waveformCursorColor', ColorInputView, {
+        alpha: true,
+        visibleBinding: 'playerControlVariant',
+        visible: variant => variant?.startsWith('waveform'),
+        placeholder: I18n.t('pageflow_scrolled.editor.content_elements.inlineAudio.attributes.waveformCursorColor.auto'),
+        placeholderColor: invert ? defaultWaveformCursorColorInverted
+                                 : defaultWaveformCursorColor,
+        swatches: entry.getUsedContentElementColors('waveformCursorColor')
       });
 
       this.view(SeparatorView);

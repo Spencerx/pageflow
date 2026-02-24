@@ -29,7 +29,9 @@ export function WaveformPlayerControls(props) {
                 isPlaying={props.isPlaying}
                 inverted={!darkBackground}
                 variant={props.variant}
-                waveformColor={props.waveformColor}
+                progressWaveformColor={props.waveformColor}
+                remainingWaveformColor={props.remainingWaveformColor}
+                waveformCursorColor={props.waveformCursorColor}
                 mainColor={theme.options.properties?.root?.accentColor ||
                            theme.options.colors?.accent}
                 play={props.play}

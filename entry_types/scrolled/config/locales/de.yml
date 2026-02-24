@@ -658,9 +658,17 @@ de:
                 waveformLines: Waveform (Linien)
             posterId:
               label: Poster
+            remainingWaveformColor:
+              auto: (Automatisch)
+              inline_help: Farbe des noch nicht abgespielten Bereichs der Waveform.
+              label: Verbleibende Waveform
             waveformColor:
               inline_help: Farbe des Bereichs der Waveform, der den bereits abgespielten Teil der Audio-Datei repräsentiert.
-              label: Waveform Farbe
+              label: Abgespielte Waveform
+            waveformCursorColor:
+              auto: (Automatisch)
+              inline_help: Farbe des Cursors, der die aktuelle Wiedergabeposition markiert.
+              label: Waveform Cursor
           description: Wiedergabe einer Audiodatei mit Steuerelementen
           name: Audio
           tabs:
