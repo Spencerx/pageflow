@@ -29,7 +29,6 @@ const editorGlobals = {
   ...frontendGlobals,
   'backbone.babysitter': 'Backbone.ChildViewContainer',
   'cocktail': 'Cocktail',
-  'jquery.minicolors': 'jQuery',
   'backbone.marionette': 'Backbone.Marionette',
   'wysihtml5': 'wysihtml5'
 };

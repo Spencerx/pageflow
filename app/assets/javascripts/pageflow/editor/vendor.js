@@ -3,7 +3,6 @@
 //= require i18n/translations
 
 //= require wysihtml-toolbar
-//= require jquery.minicolors
 
 //= require cocktail
 //= require backbone.marionette

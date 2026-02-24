@@ -326,6 +326,7 @@ export default class ColorPicker {
     };
 
     this._onAreaPointerdown = (event) => {
+      event.preventDefault();
       this._colorArea.setPointerCapture(event.pointerId);
       this._dragging = true;
     };
