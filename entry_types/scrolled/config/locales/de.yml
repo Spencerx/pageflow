@@ -648,6 +648,9 @@ de:
               label: Autoplay
             id:
               label: Audio
+            invertPlayButton:
+              inline_help: Dunklen Play-Button statt des standardmäßig weißen verwenden.
+              label: Play-Button invertieren
             playerControlVariant:
               inline_help: Wähle den Stil der Player-Steuerelemente.
               label: Player Controls

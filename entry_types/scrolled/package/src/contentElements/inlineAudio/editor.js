@@ -91,6 +91,11 @@ editor.contentElementTypes.register('inlineAudio', {
         swatches: entry.getUsedContentElementColors('waveformCursorColor')
       });
 
+      this.input('invertPlayButton', CheckBoxInputView, {
+        visibleBinding: 'playerControlVariant',
+        visible: variant => variant?.startsWith('waveform')
+      });
+
       this.view(SeparatorView);
 
       this.group('ContentElementPosition', {entry});

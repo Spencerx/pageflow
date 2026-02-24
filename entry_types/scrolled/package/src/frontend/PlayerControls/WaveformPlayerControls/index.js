@@ -37,7 +37,8 @@ export function WaveformPlayerControls(props) {
                 play={props.play}
                 pause={props.pause}
                 mediaElementId={props.mediaElementId} />
-      <div className={styles.playControl}>
+      <div className={classNames(styles.playControl,
+                                {[styles.invertPlayButton]: props.invertPlayButton})}>
         <PlayPauseButton isPlaying={props.isPlaying}
                          play={props.play}
                          pause={props.pause} />

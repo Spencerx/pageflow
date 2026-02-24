@@ -69,7 +69,8 @@ storiesOfContentElement(module, {
         playerControlVariant: 'waveform',
         waveformColor: '#1963ad',
         remainingWaveformColor: '#e2ad1a',
-        waveformCursorColor: '#ff0000'
+        waveformCursorColor: '#ff0000',
+        invertPlayButton: true
       }
     }
   ],
