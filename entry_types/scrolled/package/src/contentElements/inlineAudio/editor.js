@@ -28,7 +28,7 @@ editor.contentElementTypes.register('inlineAudio', {
   },
 
   configurationEditor({entry, contentElement}) {
-    const themeOptions = entry.getTheme().get('options');
+    const themeProperties = entry.getThemeProperties();
     const invert = contentElement.section.configuration.get('invert');
 
     this.tab('general', function() {
@@ -66,8 +66,8 @@ editor.contentElementTypes.register('inlineAudio', {
         alpha: true,
         visibleBinding: 'playerControlVariant',
         visible: variant => variant?.startsWith('waveform'),
-        defaultValue: themeOptions.properties?.root?.accent_color ||
-                      themeOptions.colors?.accent,
+        defaultValue: themeProperties.root?.accentColor ||
+                      themeProperties.colors?.accent,
         swatches: entry.getUsedContentElementColors('waveformColor')
       });
 
