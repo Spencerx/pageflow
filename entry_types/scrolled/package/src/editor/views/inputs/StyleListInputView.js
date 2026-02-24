@@ -2,7 +2,7 @@ import Marionette from 'backbone.marionette';
 import I18n from 'i18n-js';
 import 'jquery-ui';
 
-import {CollectionView, cssModulesUtils, inputView} from 'pageflow/ui';
+import {CollectionView, ColorPicker, cssModulesUtils, inputView} from 'pageflow/ui';
 import {DropDownButtonView} from 'pageflow/editor';
 
 import {StylesCollection} from '../../collections/StylesCollection';
@@ -99,16 +99,24 @@ const StyleListItemView = Marionette.ItemView.extend({
 
     this.ui.widget.slider('option', 'value', this.model.get('value') || 50);
 
-    this.ui.colorInput.minicolors({
-      defaultValue: this.model.defaultValue(),
-      position: 'bottom right',
-      changeDelay: 200,
-      change: color => {
-        this.model.set('value', color);
-      }
-    });
+    const colorInput = this.ui.colorInput[0];
 
-    this.ui.colorInput.minicolors('value', this.model.get('value'));
+    if (colorInput) {
+      colorInput.value = this.model.get('value') || this.model.defaultValue() || '';
+
+      this._colorPicker = new ColorPicker(colorInput, {
+        defaultValue: this.model.defaultValue(),
+        onChange: (color) => {
+          this.model.set('value', color || '');
+        }
+      });
+    }
+  },
+
+  onBeforeClose() {
+    if (this._colorPicker) {
+      this._colorPicker.destroy();
+    }
   }
 });
 

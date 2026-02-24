@@ -13,7 +13,6 @@ module.exports = {
   moduleNameMapper: {
     '^jquery$': resolve('../../vendor/jquery'),
     '^jquery-ui$': resolve('../../vendor/jquery-ui'),
-    '^jquery.minicolors$': resolve('../../vendor/jquery.minicolors'),
     '^backbone.marionette$': resolve('../../vendor/backbone.marionette'),
     '^backbone.babysitter$': resolve('../../vendor/backbone.babysitter'),
     '^backbone$': resolve('../../vendor/backbone'),

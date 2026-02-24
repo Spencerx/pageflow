@@ -9,9 +9,25 @@ import {watchCollections} from '../../../entryState';
 import {StandaloneSectionThumbnail} from 'pageflow-scrolled/frontend'
 
 export const TypographyVariantSelectInputView = ListboxInputView.extend({
+  onRender() {
+    ListboxInputView.prototype.onRender.call(this);
+
+    this.previewVersion = 0;
+    this.setupAttributeBinding(
+      'previewConfiguration',
+      () => {
+        if (!this.isClosed) {
+          this.previewVersion++;
+          this.renderDropdown();
+        }
+      }
+    );
+  },
+
   renderItem(item) {
     return (
-      <Preview entry={this.options.entry}
+      <Preview key={this.previewVersion}
+               entry={this.options.entry}
                contentElement={this.options.contentElement}
                item={item}
                getPreviewConfiguration={this.options.getPreviewConfiguration} />

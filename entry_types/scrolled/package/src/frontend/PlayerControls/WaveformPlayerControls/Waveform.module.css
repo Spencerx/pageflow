@@ -49,6 +49,21 @@
 
 .playControl svg {
   transform: scale(2);
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.5));
+}
+
+.invertPlayButton {
+  color: #000;
+}
+
+.invertPlayButton svg {
+  filter: none;
+}
+
+.invertPlayButton svg path {
+  filter: none;
+  stroke: rgb(255 255 255 / .5);
+  paint-order: stroke;
 }
 
 .waveWrapper {

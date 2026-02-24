@@ -633,6 +633,9 @@ en:
               label: Autoplay
             id:
               label: Audio
+            invertPlayButton:
+              inline_help: Use a dark play button instead of the default white one.
+              label: Invert Play Button
             playerControlVariant:
               inline_help: Choose the style of player controls.
               label: Player Controls
@@ -643,9 +646,17 @@ en:
                 waveformLines: Waveform (Lines)
             posterId:
               label: Poster
+            remainingWaveformColor:
+              auto: (Auto)
+              inline_help: Color of the remaining waveform that has not been played yet.
+              label: Remaining Waveform
             waveformColor:
-              inline_help: Color of the waveform's parts that represents the already played part of the audio.
-              label: Waveform Color
+              inline_help: Color of the waveform that represents the already played part of the audio.
+              label: Played Waveform
+            waveformCursorColor:
+              auto: (Auto)
+              inline_help: Color of the cursor marking the current playback position.
+              label: Waveform Cursor
           description: Player or waveform with controls
           name: Audio
           tabs:

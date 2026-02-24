@@ -69,6 +69,11 @@ class Wavesurfer extends Component {
 
     this._wavesurfer = WaveSurfer.create(options);
 
+    this._wavesurfer.drawer.updateProgress = function(position) {
+      this.style(this.progressWave, { width: position + 'px' });
+      this.style(this.wrapper.lastChild, { clipPath: 'rect(auto auto auto ' + position + 'px)' });
+    }
+
     // file was loaded, wave was drawn
     this._wavesurfer.on('ready', () => {
       this.setState({

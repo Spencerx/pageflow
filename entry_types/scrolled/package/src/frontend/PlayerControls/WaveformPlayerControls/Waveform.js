@@ -3,13 +3,14 @@ import Measure from 'react-measure';
 
 import {RemotePeakData} from './RemotePeakData';
 
+import {
+  defaultRemainingWaveformColor,
+  defaultRemainingWaveformColorInverted,
+  defaultWaveformCursorColor,
+  defaultWaveformCursorColorInverted
+} from './defaultColors';
+
 import styles from './Waveform.module.css';
-
-const waveColor = '#828282ed';
-const waveColorInverted = 'rgba(0, 0, 0, 0.5)';
-
-const cursorColor = '#fff';
-const cursorColorInverted = '#888';
 
 const Wavesurfer = React.lazy(() => import('./Wavesurfer'));
 
@@ -44,14 +45,16 @@ export function Waveform(props) {
                                 normalize: true,
                                 removeMediaElementOnDestroy: false,
                                 hideScrollbar: true,
-                                progressColor: props.waveformColor ||
+                                progressColor: props.progressWaveformColor ||
                                                props.mainColor,
-                                waveColor: props.inverted ?
-                                           waveColorInverted :
-                                           waveColor,
-                                cursorColor: props.inverted ?
-                                             cursorColorInverted :
-                                             cursorColor,
+                                waveColor: props.remainingWaveformColor ||
+                                           (props.inverted ?
+                                            defaultRemainingWaveformColorInverted :
+                                            defaultRemainingWaveformColor),
+                                cursorColor: props.waveformCursorColor ||
+                                             (props.inverted ?
+                                              defaultWaveformCursorColorInverted :
+                                              defaultWaveformCursorColor),
                                 height,
                               }} />
                 }

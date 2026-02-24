@@ -5,7 +5,6 @@ module.exports = {
     'cocktail': 'Cocktail',
     'jquery': 'jQuery',
     'jquery-ui': 'jQuery',
-    'jquery.minicolors': 'jQuery',
     'underscore': '_',
     'backbone.marionette': 'Backbone.Marionette',
     'iscroll': 'IScroll',

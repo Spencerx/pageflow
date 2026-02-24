@@ -29,13 +29,16 @@ export function WaveformPlayerControls(props) {
                 isPlaying={props.isPlaying}
                 inverted={!darkBackground}
                 variant={props.variant}
-                waveformColor={props.waveformColor}
+                progressWaveformColor={props.waveformColor}
+                remainingWaveformColor={props.remainingWaveformColor}
+                waveformCursorColor={props.waveformCursorColor}
                 mainColor={theme.options.properties?.root?.accentColor ||
                            theme.options.colors?.accent}
                 play={props.play}
                 pause={props.pause}
                 mediaElementId={props.mediaElementId} />
-      <div className={styles.playControl}>
+      <div className={classNames(styles.playControl,
+                                {[styles.invertPlayButton]: props.invertPlayButton})}>
         <PlayPauseButton isPlaying={props.isPlaying}
                          play={props.play}
                          pause={props.pause} />

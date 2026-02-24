@@ -377,6 +377,16 @@ export const ScrolledEntry = Entry.extend({
     });
   },
 
+  getUsedContentElementColors(propertyName) {
+    const colors = new Set();
+
+    this.contentElements.forEach(contentElement => {
+      colors.add(contentElement.configuration.get(propertyName));
+    });
+
+    return sortColors([...colors].filter(Boolean));
+  },
+
   getUsedSectionBackgroundColors() {
     const colors = new Set();
 

@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 
 import {ColorInputView} from 'pageflow/ui';
 
-import * as support from '$support';
 import {ColorInput} from '$support/dominos/ui'
 
 describe('pageflow.ColorInputView', () => {
@@ -477,6 +476,22 @@ describe('pageflow.ColorInputView', () => {
 
       expect(model.has('color')).toBe(false);
     });
+  });
+
+  it('removes picker element when view is closed', () => {
+    var pickersBefore = document.querySelectorAll('.color_picker').length;
+    var colorInputView = new ColorInputView({
+      model: new Backbone.Model(),
+      propertyName: 'color'
+    });
+
+    ColorInput.render(colorInputView);
+
+    expect(document.querySelectorAll('.color_picker').length).toBe(pickersBefore + 1);
+
+    colorInputView.close();
+
+    expect(document.querySelectorAll('.color_picker').length).toBe(pickersBefore);
   });
 
   describe('with placeholderColor option', () => {

@@ -23,6 +23,9 @@ export function MediaPlayerControls(props) {
 
                     variant={props.configuration.playerControlVariant}
                     waveformColor={props.configuration.waveformColor}
+                    remainingWaveformColor={props.configuration.remainingWaveformColor}
+                    waveformCursorColor={props.configuration.waveformCursorColor}
+                    invertPlayButton={props.configuration.invertPlayButton}
                     mediaElementId={playerState.mediaElementId}
 
                     currentTime={playerState.scrubbingAt !== undefined ?
