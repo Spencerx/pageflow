@@ -11,40 +11,23 @@ editor.contentElementTypes.register('textBlock', {
   supportedPositions: ['inline'],
 
   configurationEditor({entry, contentElement}) {
-    let pendingRefresh;
+    let lastExampleNodeType = contentElement.transientState.get('exampleNode')?.type;
 
     this.listenTo(
       contentElement.transientState,
       'change:exampleNode',
       () => {
-        // This is a terrible hack to prevent closing the minicolors
-        // dropdown while adjusting colors. Calling refresh is needed
-        // to update typography drop downs. Delay until color picker
-        // is closed.
-        if (document.activeElement &&
-            document.activeElement.tagName === 'INPUT' &&
-            document.activeElement.className === 'minicolors-input') {
+        const exampleNodeType = contentElement.transientState.get('exampleNode')?.type;
 
-          if (!pendingRefresh) {
-            document.activeElement.addEventListener('blur', () => {
-              pendingRefresh = false;
-              this.refresh()
-            }, {once: true});
-
-            pendingRefresh = true;
-          }
-
-          return;
+        if (exampleNodeType !== lastExampleNodeType) {
+          lastExampleNodeType = exampleNodeType;
+          this.refresh();
         }
-
-        this.refresh()
       }
     );
 
     this.tab('general', function() {
-      const exampleNode = ensureTextContent(
-        contentElement.transientState.get('exampleNode')
-      );
+      const exampleNode = contentElement.transientState.get('exampleNode');
 
       const modelDelegator = entry.createLegacyTypographyVariantDelegator({
         model: contentElement.transientState,
@@ -52,11 +35,15 @@ editor.contentElementTypes.register('textBlock', {
       })
 
       const getPreviewConfiguration = (configuration, properties) => {
-        return exampleNode ? {
+        const currentExampleNode = ensureTextContent(
+          contentElement.transientState.get('exampleNode')
+        );
+
+        return currentExampleNode ? {
           ...configuration,
           value: [
             {
-              ...exampleNode,
+              ...currentExampleNode,
               // Ensure size in preview is not overridden by legacy variant
               variant: modelDelegator.get('typographyVariant'),
               ...properties
@@ -73,6 +60,8 @@ editor.contentElementTypes.register('textBlock', {
         entry,
         model: modelDelegator,
         prefix: exampleNode ? utils.camelize(exampleNode.type) : 'none',
+        previewConfigurationBindingModel: contentElement.transientState,
+        previewConfigurationBinding: 'exampleNode',
         getPreviewConfiguration(configuration, variant) {
           return getPreviewConfiguration(configuration, {variant})
         }
@@ -81,6 +70,8 @@ editor.contentElementTypes.register('textBlock', {
         entry,
         model: modelDelegator,
         prefix: exampleNode ? utils.camelize(exampleNode.type) : 'none',
+        previewConfigurationBindingModel: contentElement.transientState,
+        previewConfigurationBinding: 'exampleNode',
         getPreviewConfiguration(configuration, size) {
           return getPreviewConfiguration(configuration, {size})
         }

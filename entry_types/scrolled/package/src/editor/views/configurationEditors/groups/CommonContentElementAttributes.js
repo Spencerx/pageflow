@@ -95,7 +95,10 @@ ConfigurationEditorTabView.groups.define('ContentElementPosition', function({ent
 
 ConfigurationEditorTabView.groups.define(
   'ContentElementTypographyVariant',
-  function({entry, model, prefix, getPreviewConfiguration}) {
+  function({
+    entry, model, prefix, getPreviewConfiguration,
+    previewConfigurationBindingModel, previewConfigurationBinding
+  }) {
     const contentElement = this.model.parent;
 
     if (entry.getTypographyVariants({contentElement})[0].length) {
@@ -110,6 +113,8 @@ ConfigurationEditorTabView.groups.define(
         contentElement: contentElement,
         prefix,
         getPreviewConfiguration,
+        previewConfigurationBindingModel,
+        previewConfigurationBinding,
 
         includeBlank: true,
         blankTranslationKey: 'pageflow_scrolled.editor.' +
@@ -129,7 +134,10 @@ ConfigurationEditorTabView.groups.define(
 
 ConfigurationEditorTabView.groups.define(
   'ContentElementTypographySize',
-  function({entry, model, prefix, getPreviewConfiguration}) {
+  function({
+    entry, model, prefix, getPreviewConfiguration,
+    previewConfigurationBindingModel, previewConfigurationBinding
+  }) {
     const contentElement = this.model.parent;
 
     const [sizes, texts] = entry.getTypographySizes({
@@ -143,6 +151,8 @@ ConfigurationEditorTabView.groups.define(
       contentElement,
       prefix,
       getPreviewConfiguration,
+      previewConfigurationBindingModel,
+      previewConfigurationBinding,
 
       attributeTranslationKeyPrefixes: [
         'pageflow_scrolled.editor.common_content_element_attributes'
