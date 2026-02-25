@@ -67,11 +67,31 @@ class Wavesurfer extends Component {
       options.backend = 'MediaElement';
     }
 
+    // Do not draw waveform behind translucent progress waveform.
+
     this._wavesurfer = WaveSurfer.create(options);
 
     this._wavesurfer.drawer.updateProgress = function(position) {
       this.style(this.progressWave, { width: position + 'px' });
       this.style(this.wrapper.lastChild, { clipPath: 'rect(auto auto auto ' + position + 'px)' });
+    }
+
+    // Prevent Wavesurfer from calling load on media element when peak
+    // data is present. Otherwise play progress is reset lazy loading
+    // re-initializes the player after having moved off-screen.
+    // Wavesurfer already skips that if preload is"none". We can thus
+    // use this to suppress the unwanted load. If media is already
+    // playing, we need to fire play event to make Wavesurfer start
+    // the timer that updates waveform progress.
+
+    const origLoad = this._wavesurfer.backends.MediaElement.prototype._load;
+
+    this._wavesurfer.backends.MediaElement.prototype._load = function(media, peaks) {
+      origLoad.call(this, media, peaks, 'none');
+
+      if (!media.paused) {
+        this.fireEvent('play');
+      }
     }
 
     // file was loaded, wave was drawn
