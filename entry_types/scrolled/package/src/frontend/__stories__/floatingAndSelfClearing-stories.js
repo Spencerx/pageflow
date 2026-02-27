@@ -86,6 +86,15 @@ frontend.contentElementTypes.register('probe', {
     ]
   },
   {
+    name: 'Left/Right/Left with Tall First Item',
+    items: [
+      ['left', '3 / 4'],
+      ['right', '4 / 3'],
+      ['left', '4 / 3'],
+      ['text']
+    ]
+  },
+  {
     name: 'Left/Right/Right/Left',
     items: [
       ['left', '4 / 3'],
@@ -101,6 +110,15 @@ frontend.contentElementTypes.register('probe', {
       ['right', '4 / 3'],
       ['left', '3 / 4'],
       ['right', '4 / 3'],
+      ['text']
+    ]
+  },
+  {
+    name: 'Right/Left/Right with Place for Text',
+    items: [
+      ['right', '3 / 4'],
+      ['left', '4 / 3'],
+      ['left', '4 / 3'],
       ['text']
     ]
   },
