@@ -241,6 +241,99 @@ module PageflowScrolled
 
         expect(result).not_to include('pageflow-scrolled/widgets/test')
       end
+
+      it 'includes packs of a present pack-contributing widget outside of editor' do
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'analyticsish',
+                             roles: ['analytics'],
+                             insert_point: :bottom_of_entry,
+                             packs: ['some/analytics-pack']),
+            default: true
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        result = helper.scrolled_frontend_packs(entry, entry_mode: :published)
+
+        expect(result).to include('some/analytics-pack')
+      end
+
+      it 'passes the entry to the widget packs method' do
+        received = nil
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'analyticsish',
+                             roles: ['analytics'],
+                             insert_point: :bottom_of_entry,
+                             packs: lambda { |entry|
+                               received = entry
+                               []
+                             }),
+            default: true
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        helper.scrolled_frontend_packs(entry, entry_mode: :published)
+
+        expect(received).to eq(entry)
+      end
+
+      it 'passes the request to the widget packs method' do
+        received = :not_passed
+        widget_type = Class.new(Pageflow::TestWidgetType) {
+          define_method(:packs) do |request: :not_passed, **|
+            received = request
+            []
+          end
+        }.new(name: 'analyticsish', roles: ['analytics'], insert_point: :bottom_of_entry)
+
+        pageflow_configure do |config|
+          config.widget_types.register(widget_type, default: true)
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        helper.scrolled_frontend_packs(entry, entry_mode: :published)
+
+        expect(received).to eq(helper.request)
+      end
+
+      it 'includes packs of a pack-contributing widget in editor' do
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'analyticsish',
+                             roles: ['analytics'],
+                             packs: ['some/analytics-pack'])
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        result = helper.scrolled_frontend_packs(entry, entry_mode: :editor)
+
+        expect(result).to include('some/analytics-pack')
+      end
+
+      it 'does not include packs of an editor-disabled pack-contributing widget in editor' do
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'analyticsish',
+                             roles: ['analytics'],
+                             enabled_in_editor: false,
+                             packs: ['some/analytics-pack'])
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        result = helper.scrolled_frontend_packs(entry, entry_mode: :editor)
+
+        expect(result).not_to include('some/analytics-pack')
+      end
     end
 
     describe 'scrolled_frontend_stylesheet_packs' do
@@ -531,6 +624,14 @@ module PageflowScrolled
         expect(result).not_to include('some/script/if-false')
         expect(result).not_to include('some/script/unless-true')
       end
+    end
+
+    def pack_widget_type(packs:, **options)
+      Class.new(Pageflow::TestWidgetType) {
+        define_method(:packs) do |entry:, **|
+          packs.respond_to?(:call) ? packs.call(entry) : packs
+        end
+      }.new(**options)
     end
   end
 end

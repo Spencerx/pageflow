@@ -71,14 +71,17 @@ module PageflowScrolled
     end
 
     def scrolled_frontend_widget_type_packs(entry, widget_scope)
-      scrolled_frontend_pack_widget_types(entry, widget_scope).map(&:pack)
+      scrolled_frontend_pack_widget_types(entry, widget_scope)
+        .select { |widget_type| widget_type.respond_to?(:packs) }
+        .flat_map { |widget_type| widget_type.packs(entry:, request:) }
+        .uniq
     end
 
     def scrolled_frontend_pack_widget_types(entry, widget_scope)
       if widget_scope == :editor
-        ReactWidgetType.all_for(entry)
+        Pageflow.config_for(entry).widget_types.select(&:enabled_in_editor?)
       else
-        entry.resolve_widgets(insert_point: :react).map(&:widget_type)
+        entry.resolve_widgets.map(&:widget_type)
       end
     end
   end
