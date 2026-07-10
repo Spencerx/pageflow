@@ -161,6 +161,14 @@ module PageflowScrolled
     # @since 16.1
     attr_accessor :legacy_typography_variants
 
+    # Whether to include the legacy JavaScript Sprockets asset
+    # (`pageflow_scrolled/legacy`) in the head of published entries and
+    # previews. Defaults to `true`. Set to `false` once no code relies
+    # on the legacy bundle anymore.
+    #
+    # @since edge
+    attr_accessor :include_legacy_frontend_javascript
+
     def initialize(*)
       super
       @additional_frontend_packs = AdditionalPacks.new
@@ -172,6 +180,8 @@ module PageflowScrolled
       @consent_vendor_url_matchers = {}
 
       @legacy_typography_variants = {}
+
+      @include_legacy_frontend_javascript = true
     end
   end
 end
