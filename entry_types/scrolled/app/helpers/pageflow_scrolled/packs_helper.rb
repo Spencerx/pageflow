@@ -4,7 +4,7 @@ module PageflowScrolled
     def scrolled_frontend_javascript_packs_tag(entry, options)
       javascript_pack_tag(
         *scrolled_frontend_packs(entry, **options),
-        defer: false
+        defer: true
       )
     end
 

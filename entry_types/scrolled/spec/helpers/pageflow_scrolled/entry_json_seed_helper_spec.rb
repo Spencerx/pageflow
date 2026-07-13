@@ -1604,14 +1604,17 @@ module PageflowScrolled
     end
 
     describe '#scrolled_entry_json_seed_script_tag' do
-      it 'renders script tag which assigns seed global variable' do
+      it 'renders inert JSON data script tag carrying the seed' do
         entry = create(:published_entry, type_name: 'scrolled')
         chapter = create(:scrolled_chapter, revision: entry.revision)
         create(:section, chapter:)
 
         result = helper.scrolled_entry_json_seed_script_tag(entry)
 
-        expect(result).to match(%r{<script>.*pageflowScrolledRender\(\{.*\}\).*</script>}m)
+        expect(result).to have_selector(
+          'script[type="application/json"][data-pageflow-scrolled-seed]',
+          visible: false
+        )
       end
 
       it 'escapes illegal characters' do

@@ -191,6 +191,29 @@ global.pageflowScrolledRegisterUpdateSeedHandler = function() {
   }
 }
 
+function bootFromSeedElement() {
+  const element =
+    document.querySelector('script[type="application/json"][data-pageflow-scrolled-seed]');
+
+  if (element) {
+    global.pageflowScrolledRender(JSON.parse(element.textContent));
+  }
+}
+
+if (typeof document !== 'undefined') {
+  // Widget packs (defaultNavigation, consentBar, mainStorylineSheet, ...) are
+  // separate scripts that load after this entry bundle and register their widget
+  // types on execution. All deferred pack scripts run before DOMContentLoaded, so
+  // waiting for that event is what guarantees every widget type - and the seed
+  // element that follows the scripts - is present before we render.
+  if (document.readyState === 'complete') {
+    bootFromSeedElement();
+  }
+  else {
+    document.addEventListener('DOMContentLoaded', bootFromSeedElement);
+  }
+}
+
 function render(seed) {
   if (editMode) {
     ReactDOM.render(<Root seed={seed} />, document.getElementById('root'));

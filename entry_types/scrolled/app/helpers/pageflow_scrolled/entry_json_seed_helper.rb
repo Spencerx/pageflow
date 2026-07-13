@@ -18,9 +18,10 @@ module PageflowScrolled
         scrolled_entry_json_seed(json, scrolled_entry, options)
       end
 
-      content_tag(:script, <<-JS.html_safe)
-        pageflowScrolledRender(#{sanitize_json(seed_json)});
-      JS
+      content_tag(:script,
+                  sanitize_json(seed_json).html_safe,
+                  type: 'application/json',
+                  data: {pageflow_scrolled_seed: true})
     end
 
     def scrolled_entry_json_seed(json, scrolled_entry, options = {})
