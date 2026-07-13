@@ -26,7 +26,10 @@ import {BrowserNotSupportedView} from './views/BrowserNotSupportedView';
 editor.registerEntryType('scrolled', {
   entryModel: ScrolledEntry,
 
-  previewView(options) {
+  // Defined as a plain function (not a concise method) because the core
+  // editor constructs it with `new editor.entryType.previewView(...)`,
+  // and concise methods are not constructable.
+  previewView: function(options) {
     return new EntryPreviewView({
       ...options,
       editor

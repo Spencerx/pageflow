@@ -1,21 +1,21 @@
 import '@testing-library/jest-dom/extend-expect';
 import {fireEvent, waitFor} from '@testing-library/react';
+import {enableFetchMocks} from 'jest-fetch-mock';
 
 import {renderEntry, useCommentingPageObjects} from 'support/pageObjects/commenting';
+
+enableFetchMocks();
 
 describe('commenting badges', () => {
   useCommentingPageObjects();
 
   it('fetches threads from API and displays badge', async () => {
-    jest.spyOn(window, 'fetch').mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({
-        currentUser: {id: 42, name: 'Alice'},
-        commentThreads: [
-          {id: 1, subjectType: 'ContentElement', subjectId: 1, comments: []}
-        ]
-      })
-    });
+    fetch.mockResponse(JSON.stringify({
+      currentUser: {id: 42, name: 'Alice'},
+      commentThreads: [
+        {id: 1, subjectType: 'ContentElement', subjectId: 1, comments: []}
+      ]
+    }));
 
     const entry = renderEntry({
       seed: {
