@@ -378,6 +378,52 @@ module PageflowScrolled
                                                     seed_options: {})
         ).not_to include('pageflow-scrolled-frontend-commenting')
       end
+
+      it 'excludes widget packs without stylesheet option' do
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'analyticsish',
+                             roles: ['analytics'],
+                             insert_point: :bottom_of_entry,
+                             packs: ['some/js-only-pack']),
+            default: true
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        expect(
+          helper.scrolled_frontend_packs(entry, entry_mode: :published)
+        ).to include('some/js-only-pack')
+        expect(
+          helper.scrolled_frontend_stylesheet_packs(entry,
+                                                    entry_mode: :published,
+                                                    seed_options: {})
+        ).not_to include('some/js-only-pack')
+      end
+
+      it 'includes widget packs with stylesheet option' do
+        pageflow_configure do |config|
+          config.widget_types.register(
+            pack_widget_type(name: 'themed',
+                             roles: ['navigation'],
+                             insert_point: :bottom_of_entry,
+                             packs: [{path: 'some/themed-pack', stylesheet: true}]),
+            default: true
+          )
+        end
+
+        entry = create(:published_entry, type_name: 'scrolled')
+
+        expect(
+          helper.scrolled_frontend_packs(entry, entry_mode: :published)
+        ).to include('some/themed-pack')
+        expect(
+          helper.scrolled_frontend_stylesheet_packs(entry,
+                                                    entry_mode: :published,
+                                                    seed_options: {})
+        ).to include('some/themed-pack')
+      end
     end
 
     describe 'scrolled_editor_packs' do
