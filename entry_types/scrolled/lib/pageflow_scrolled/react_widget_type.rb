@@ -39,7 +39,7 @@ module PageflowScrolled
 
     # @api private
     def packs(**)
-      [pack]
+      [{path: pack, stylesheet: true}]
     end
   end
 end

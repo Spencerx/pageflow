@@ -16,7 +16,7 @@ module PageflowScrolled
     end
 
     def scrolled_frontend_stylesheet_packs(entry, entry_mode:, seed_options: {})
-      packs = scrolled_frontend_packs(entry, entry_mode: entry_mode)
+      packs = scrolled_frontend_packs(entry, entry_mode:, format: :css)
       packs += ['pageflow-scrolled-frontend-inlineEditing'] if seed_options[:load_inline_editing]
       packs += ['pageflow-scrolled-frontend-commenting'] if seed_options[:load_commenting]
       packs
@@ -36,10 +36,10 @@ module PageflowScrolled
       )
     end
 
-    def scrolled_frontend_packs(entry, entry_mode:)
+    def scrolled_frontend_packs(entry, entry_mode:, format: :js)
       ['pageflow-scrolled-frontend'] +
         scrolled_additional_frontend_packs(entry, entry_mode) +
-        scrolled_frontend_widget_type_packs(entry, entry_mode)
+        scrolled_frontend_widget_type_packs(entry, entry_mode, format)
     end
 
     def scrolled_editor_packs(entry)
@@ -70,10 +70,14 @@ module PageflowScrolled
       )
     end
 
-    def scrolled_frontend_widget_type_packs(entry, widget_scope)
+    def scrolled_frontend_widget_type_packs(entry, widget_scope, format = :js)
       scrolled_frontend_pack_widget_types(entry, widget_scope)
         .select { |widget_type| widget_type.respond_to?(:packs) }
         .flat_map { |widget_type| widget_type.packs(entry:, request:) }
+        .filter_map { |pack|
+          path, stylesheet = pack.is_a?(Hash) ? pack.values_at(:path, :stylesheet) : [pack, false]
+          path if format == :js || stylesheet
+        }
         .uniq
     end
 
