@@ -1,0 +1,7 @@
+# Pageflow targets modern browsers (ES modules, CSS custom properties),
+# so builds avoid ES5 transpilation and the corresponding core-js
+# polyfills. `defaults` on its own still includes browsers like Opera
+# Mini that force Babel into legacy output; intersecting it with
+# `supports es6-module` drops those while keeping the usual
+# market-share/recency floor.
+defaults and supports es6-module

@@ -1,4 +1,3 @@
-import './polyfills';
 import {Consent} from './Consent';
 
 export {log, debugMode} from './base';

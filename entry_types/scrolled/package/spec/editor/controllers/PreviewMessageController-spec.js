@@ -15,6 +15,9 @@ import {
 } from 'frontend/inlineEditing/postMessage';
 import {setupGlobals} from 'pageflow/testHelpers';
 import {normalizeSeed, factories, createIframeWindow, useFakeXhr} from 'support';
+import {enableFetchMocks} from 'jest-fetch-mock';
+
+enableFetchMocks();
 
 describe('PreviewMessageController', () => {
   beforeAll(() => editor.contentElementTypes.register('textBlock', {}));
@@ -51,10 +54,7 @@ describe('PreviewMessageController', () => {
 
   it('sends REVIEW_STATE_RESET to iframe after READY when commenting enabled', () => {
     features.enable('frontend', ['commenting']);
-    jest.spyOn(window, 'fetch').mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({currentUser: {id: 1}, commentThreads: []})
-    });
+    fetch.mockResponse(JSON.stringify({currentUser: {id: 1}, commentThreads: []}));
 
     const entry = factories.entry(ScrolledEntry, {}, {entryTypeSeed: normalizeSeed()});
     const iframeWindow = createIframeWindow();

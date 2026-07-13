@@ -2,7 +2,7 @@ import {act} from '@testing-library/react';
 
 export const fakeIntersectionObserver = {
   byRoot(root) {
-    return this.instances.find(intersectionObserver =>
+    return [...this.instances].find(intersectionObserver =>
       intersectionObserver.root === root
     );
   }
