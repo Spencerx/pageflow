@@ -38,10 +38,8 @@ module PageflowScrolled
     end
 
     # @api private
-    def self.all_for(entry)
-      Pageflow.config_for(entry).widget_types.select do |widget_type|
-        widget_type.insert_point == :react
-      end
+    def packs(**)
+      [pack]
     end
   end
 end
