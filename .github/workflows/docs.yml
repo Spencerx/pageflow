@@ -25,6 +25,12 @@ jobs:
         theme: pageflow
         themePackage: tf/sassdoc-theme-pageflow#dist
 
+    # documentation-js-action bundles an old Browserslist that cannot parse the
+    # `supports` query in .browserslistrc. Doc generation does not depend on
+    # browser targets, so drop the config for this workflow.
+    - name: Remove browserslist config for JSDoc build
+      run: rm -f .browserslistrc
+
     - name: Build pageflow JSDoc
       uses: codevise/documentation-js-action@v1.3.1
       with:
