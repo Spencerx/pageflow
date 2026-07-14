@@ -1,10 +1,19 @@
 import 'core-js/stable';
 import 'core-js/features/typed-array/uint16-array';
+import URLPolyfill from 'core-js-pure/features/url';
 
 import React from 'react';
 import ReactRailsUJS from 'react_ujs';
 
 import {Root, setupI18n} from 'pageflow-scrolled/frontend';
+
+// The server-side rendering environment (ExecJS) lacks Web APIs like URL,
+// which `core-js/stable` no longer polyfills now that we target modern
+// browsers. Install it from core-js-pure (which the browser-targeted
+// transforms do not strip) so prerendering can use `new URL(...)`.
+if (typeof global.URL === 'undefined') {
+  global.URL = URLPolyfill;
+}
 
 ReactRailsUJS.getConstructor = function() {
   // Normally this function receives the name of a component, but we
