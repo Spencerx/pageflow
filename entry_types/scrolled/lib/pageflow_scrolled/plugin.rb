@@ -161,7 +161,8 @@ module PageflowScrolled
 
         c.revision_components.register(Storyline, create_defaults: true)
 
-        ['tikTokEmbed', 'twitterEmbed', 'hotspots', 'socialEmbed'].each do |name|
+        ['tikTokEmbed', 'twitterEmbed', 'hotspots', 'socialEmbed',
+         'videoEmbed', 'inlineBeforeAfter'].each do |name|
           c.additional_frontend_packs.register(
             "pageflow-scrolled/contentElements/#{name}-frontend",
             content_element_type_names: [name]

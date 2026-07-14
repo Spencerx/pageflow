@@ -37,6 +37,18 @@ module.exports = {
         'pageflow-scrolled/contentElements/socialEmbed-frontend.css'
       ]
     },
+    'pageflow-scrolled/contentElements/videoEmbed-frontend': {
+      import: [
+        'pageflow-scrolled/contentElements/videoEmbed-frontend',
+        'pageflow-scrolled/contentElements/videoEmbed-frontend.css'
+      ]
+    },
+    'pageflow-scrolled/contentElements/inlineBeforeAfter-frontend': {
+      import: [
+        'pageflow-scrolled/contentElements/inlineBeforeAfter-frontend',
+        'pageflow-scrolled/contentElements/inlineBeforeAfter-frontend.css'
+      ]
+    },
     'pageflow-scrolled/widgets/defaultNavigation': {
       import: [
         'pageflow-scrolled/widgets/defaultNavigation',
