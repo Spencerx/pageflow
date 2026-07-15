@@ -3,7 +3,7 @@ import {CheckBoxInputView, ConfigurationEditorTabView} from 'pageflow/ui';
 import {factories} from '$support';
 
 describe('WidgetsCollection', () => {
-  it('supports gettting subset collection for insert point', () => {
+  it('supports getting subset collection by widget type property', () => {
     const widgetTypes = factories.widgetTypes([
       {role: 'navigation', name: 'some_navigation_bar', insertPoint: 'react'},
       {role: 'consent', name: 'some_consent_provider', insertPoint: 'bottom_of_entry'}
@@ -14,11 +14,28 @@ describe('WidgetsCollection', () => {
     ], {widgetTypes});
 
     expect(
-      widgets.withInsertPoint('react').pluck('type_name')
+      widgets.withWidgetType({insertPoint: 'react'}).pluck('type_name')
     ).toEqual(['some_navigation_bar']);
   });
 
-  it('keeps insert point subset collection up to date when type name changes', () => {
+  it('supports filtering by multiple widget type properties', () => {
+    const widgetTypes = factories.widgetTypes([
+      {role: 'consent', name: 'consent_bar', insertPoint: 'react'},
+      {role: 'consent', name: 'consent_dialog', insertPoint: 'react',
+       enabledInEditor: false}
+    ]);
+    const widgets = new WidgetsCollection([
+      {type_name: 'consent_bar'},
+      {type_name: 'consent_dialog'},
+    ], {widgetTypes});
+
+    expect(
+      widgets.withWidgetType({insertPoint: 'react', enabledInEditor: true})
+             .pluck('type_name')
+    ).toEqual(['consent_bar']);
+  });
+
+  it('keeps subset collection up to date when type name changes', () => {
     const widgetTypes = factories.widgetTypes([
       {role: 'consent', name: 'consent_bar', insertPoint: 'react'},
       {role: 'consent', name: 'some_consent_provider', insertPoint: 'bottom_of_entry'}
@@ -28,7 +45,7 @@ describe('WidgetsCollection', () => {
     ], {widgetTypes});
     widgets.subject = factories.entry();
 
-    const subsetCollection = widgets.withInsertPoint('react');
+    const subsetCollection = widgets.withWidgetType({insertPoint: 'react'});
     widgets.first().set('type_name', 'consent_bar');
 
     expect(subsetCollection.pluck('type_name')).toEqual(['consent_bar']);
@@ -44,7 +61,7 @@ describe('WidgetsCollection', () => {
     ], {widgetTypes});
     widgets.subject = factories.entry();
 
-    const subsetCollection = widgets.withInsertPoint('react');
+    const subsetCollection = widgets.withWidgetType({insertPoint: 'react'});
 
     expect(subsetCollection.pluck('type_name')).toEqual(['consent_bar']);
   });

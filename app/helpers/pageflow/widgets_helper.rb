@@ -33,7 +33,8 @@ module Pageflow
           result[role] << {
             name: widget_type.name,
             translationKey: widget_type.translation_key,
-            insertPoint: widget_type.insert_point
+            insertPoint: widget_type.insert_point,
+            enabledInEditor: widget_type.enabled_in_editor?
           }
         end
       }.to_json.html_safe

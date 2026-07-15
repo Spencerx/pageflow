@@ -47,7 +47,10 @@ export function watchCollections(entry, {dispatch}) {
     dispatch
   }));
 
-  teardownFns.push(watchCollection(widgets.withInsertPoint('react'), {
+  // Only sync widgets whose frontend packs the server loads in the editor.
+  // Editor-disabled widgets have no registered widget type here, so rendering
+  // them in the preview would fail.
+  teardownFns.push(watchCollection(widgets.withWidgetType({insertPoint: 'react', enabledInEditor: true}), {
     name: 'widgets',
     attributes: [{typeName: 'type_name'}, 'role', {permaId: 'role'}],
     keyAttribute: 'permaId',

@@ -6,6 +6,7 @@ export const WidgetType = Object.extend({
     this.name = serverSideConfig.name;
     this.translationKey = serverSideConfig.translationKey;
     this.insertPoint = serverSideConfig.insertPoint;
+    this.enabledInEditor = serverSideConfig.enabledInEditor !== false;
     this.configurationEditorView = clientSideConfig.configurationEditorView;
     this.configurationEditorTabViewGroups = clientSideConfig.configurationEditorTabViewGroups || {};
     this.isOptional = clientSideConfig.isOptional;
