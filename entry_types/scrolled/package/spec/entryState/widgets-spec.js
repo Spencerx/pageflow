@@ -59,6 +59,30 @@ describe('useWidget', () => {
     expect(widget).toBeUndefined();
   });
 
+  it('filters out react widgets disabled in editor', () => {
+    const {result} = renderHookInEntry(() => useWidget({role: 'consent'}), {
+      setup: dispatch =>
+        watchCollections(
+          factories.entry(ScrolledEntry, {}, {
+            widgetTypes: factories.widgetTypes([{
+              role: 'consent',
+              name: 'consent_dialog',
+              insertPoint: 'react',
+              enabledInEditor: false
+            }]),
+            widgetsAttributes: [{
+              type_name: 'consent_dialog',
+              role: 'consent'
+            }],
+            entryTypeSeed: normalizeSeed()
+          }),
+          {dispatch}
+        )
+    });
+
+    expect(result.current).toBeUndefined();
+  });
+
   it('reads data from seed', () => {
     const {result} = renderHookInEntry(
       () => useWidget({role: 'navigation'}),

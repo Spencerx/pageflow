@@ -229,6 +229,20 @@ module Pageflow
           .to eq('pageflow.fancy_bar.widget_type_name')
         expect(result['navigation'][0]['insertPoint']).to eq('react')
       end
+
+      it 'renders enabledInEditor by role' do
+        widget_type = TestWidgetType.new(name: 'fancy_bar',
+                                         roles: ['navigation'],
+                                         enabled_in_editor: false)
+        pageflow_configure do |config|
+          config.widget_types.clear
+          config.widget_types.register(widget_type)
+        end
+
+        result = JSON.parse(helper.widget_types_json_seeds(Pageflow.config))
+
+        expect(result['navigation'][0]['enabledInEditor']).to eq(false)
+      end
     end
 
     describe '#widgets_json_seeds' do

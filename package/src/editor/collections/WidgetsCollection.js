@@ -49,13 +49,16 @@ export const WidgetsCollection = Backbone.Collection.extend({
     this.each(widget => widget.defineConfigurationEditorTabViewGroups(groups));
   },
 
-  withInsertPoint(insertPoint) {
+  withWidgetType(properties) {
     return new SubsetCollection({
       parent: this,
       watchAttribute: 'type_name',
-      filter: widget => (
-        widget.widgetType() && widget.widgetType().insertPoint === insertPoint
-      )
+      filter: widget => {
+        const widgetType = widget.widgetType();
+
+        return !!widgetType &&
+               Object.keys(properties).every(name => widgetType[name] === properties[name]);
+      }
     });
   }
 });
