@@ -7,16 +7,20 @@ export const mediaEvents = function(player, context) {
     context = newContext;
   }
 
-  function triggerMediaEvent(name) {
+  player.triggerMediaAllocate = function() {
     if (context) {
-      events.trigger('media:' + name, {
-        fileName: player.previousSrc || player.currentSrc(),
-        context: context,
-        currentTime: player.currentTime(),
-        duration: player.duration(),
-        volume: player.volume(),
-        altText: player.getMediaElement().getAttribute('alt'),
-        bitrate: 3500000
+      events.trigger('media:allocate', {
+        ...mediaEventPayload(),
+        element: player.getMediaElement()
+      });
+    }
+  }
+
+  player.triggerMediaRelease = function() {
+    if (context) {
+      events.trigger('media:release', {
+        ...mediaEventPayload(),
+        element: player.getMediaElement()
       });
     }
   }
@@ -49,4 +53,21 @@ export const mediaEvents = function(player, context) {
     triggerMediaEvent('ended');
   });
 
+  function triggerMediaEvent(name) {
+    if (context) {
+      events.trigger('media:' + name, mediaEventPayload());
+    }
+  }
+
+  function mediaEventPayload() {
+    return {
+      fileName: player.previousSrc || player.currentSrc(),
+      context: context,
+      currentTime: player.currentTime(),
+      duration: player.duration(),
+      volume: player.volume(),
+      altText: player.getMediaElement().getAttribute('alt'),
+      bitrate: 3500000
+    };
+  }
 };
