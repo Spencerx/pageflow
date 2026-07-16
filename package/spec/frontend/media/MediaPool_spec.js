@@ -1,6 +1,6 @@
 import '$support/mediaElementStub';
 import '$support/fakeBrowserFeatures';
-import {MediaPool, MediaType, blankSources} from 'pageflow/frontend';
+import {MediaPool, MediaType, blankSources, events} from 'pageflow/frontend';
 
 describe('MediaPool', function() {
   it('create an empty pool of audio and video players', function () {
@@ -161,6 +161,44 @@ describe('MediaPool', function() {
       player = pool.allocatePlayer({playerType: MediaType.VIDEO});
       expect(player.previousSrc).toBeNull();
     });
+  });
+
+  describe('media lifecycle events', function() {
+    beforeEach(() => {
+      jest.spyOn(events, 'trigger').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it('triggers media:allocate on allocation', () => {
+      const pool = new MediaPool({playerCount: 1});
+
+      pool.allocatePlayer({
+        playerType: MediaType.VIDEO,
+        mediaEventsContextData: {page: {}}
+      });
+
+      expect(lifecycleEvents()).toEqual(['media:allocate']);
+    });
+
+    it('triggers media:release before media:allocate when reusing a player', () => {
+      const pool = new MediaPool({playerCount: 1});
+      const context = {page: {}};
+
+      const first = pool.allocatePlayer({playerType: MediaType.VIDEO, mediaEventsContextData: context});
+      const reused = pool.allocatePlayer({playerType: MediaType.VIDEO, mediaEventsContextData: context});
+
+      expect(reused).toBe(first);
+      expect(lifecycleEvents()).toEqual(['media:allocate', 'media:release', 'media:allocate']);
+    });
+
+    function lifecycleEvents() {
+      return events.trigger.mock.calls
+                   .map(call => call[0])
+                   .filter(name => name === 'media:allocate' || name === 'media:release');
+    }
   });
 
   describe('#blessAll', function() {

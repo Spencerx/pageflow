@@ -66,6 +66,8 @@ export class MediaPool {
       player.releaseCallback = onRelease;
       player.previousSrc = null;
 
+      player.triggerMediaAllocate();
+
       return player;
     }
     else{
@@ -77,6 +79,8 @@ export class MediaPool {
   }
   unAllocatePlayer(player){
     if (player) {
+      player.triggerMediaRelease();
+
       let type = this.getMediaTypeFromEl(player.el());
       this.allocatedPlayers[type] = this.allocatedPlayers[type].filter(p=>p!=player);
 

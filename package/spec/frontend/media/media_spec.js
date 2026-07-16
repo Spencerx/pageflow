@@ -13,6 +13,14 @@ describe('media', function() {
   ];
 
   describe('#getPlayer', function() {
+    beforeEach(() => {
+      jest.spyOn(events, 'trigger').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
     it('returns an instance of videojs.Player', function() {
       let player = media.getPlayer(fileSources, {});
 
@@ -72,7 +80,6 @@ describe('media', function() {
           index: 1,
         }
       };
-      events.trigger = jest.fn();
       let player = media.getPlayer(fileSources, {
         tagName: 'audio',
         mediaEventsContextData:  context
@@ -87,8 +94,40 @@ describe('media', function() {
       );
     });
 
+    it('triggers media:allocate event with the media element', () => {
+      let context = {page: {index: 1}};
+      let player = media.getPlayer(fileSources, {
+        tagName: 'audio',
+        mediaEventsContextData: context
+      });
+
+      expect(events.trigger).toHaveBeenCalledWith(
+        'media:allocate',
+        expect.objectContaining({
+          element: player.getMediaElement(),
+          context: context
+        })
+      );
+    });
+
+    it('triggers media:release event with the media element', () => {
+      let context = {page: {index: 1}};
+      let player = media.getPlayer(fileSources, {
+        tagName: 'audio',
+        mediaEventsContextData: context
+      });
+      events.trigger.mockClear();
+      media.releasePlayer(player);
+
+      expect(events.trigger).toHaveBeenCalledWith(
+        'media:release',
+        expect.objectContaining({
+          element: player.getMediaElement()
+        })
+      );
+    });
+
     it('do not trigger media event when context is undefined', () => {
-      events.trigger = jest.fn();
       let player = media.getPlayer(fileSources, {
         tagName: 'audio',
         mediaEventsContextData:  undefined
