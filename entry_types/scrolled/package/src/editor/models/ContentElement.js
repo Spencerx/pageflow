@@ -113,6 +113,10 @@ export const ContentElement = Backbone.Model.extend({
       mapping.defaultContentElementFullWidthInPhoneLayout = 'fullWidthInPhoneLayout';
     }
 
+    if (this.supportsCaption()) {
+      mapping.defaultCaptionVariant = 'captionVariant';
+    }
+
     return mapping;
   },
 
@@ -173,6 +177,10 @@ export const ContentElement = Backbone.Model.extend({
   supportsFullWidthInPhoneLayout() {
     return !this.getType().customMargin &&
            this.getType().supportedWidthRange?.[1] === 'full';
+  },
+
+  supportsCaption() {
+    return !!this.getType().supportedCaptions;
   },
 
   getEditorPath() {

@@ -640,6 +640,65 @@ describe('ContentElement', () => {
         expect(contentElement.configuration.has('fullWidthInPhoneLayout')).toEqual(false);
       });
     });
+
+    describe('with defaultCaptionVariant', () => {
+      beforeEach(() => {
+        editor.contentElementTypes.register('elementSupportingCaption', {
+          supportedCaptions: true
+        });
+        editor.contentElementTypes.register('elementNotSupportingCaption', {});
+      });
+
+      it('sets captionVariant if element supports captions', () => {
+        const entry = factories.entry(
+          ScrolledEntry,
+          {
+            metadata: {
+              configuration: {
+                defaultCaptionVariant: 'inverted'
+              }
+            }
+          },
+          {
+            entryTypeSeed: normalizeSeed({
+              contentElements: []
+            })
+          }
+        );
+
+        const contentElement = new entry.contentElements.model({
+          typeName: 'elementSupportingCaption'
+        });
+        contentElement.applyDefaultConfiguration({entry});
+
+        expect(contentElement.configuration.get('captionVariant')).toEqual('inverted');
+      });
+
+      it('does not set captionVariant if element does not support captions', () => {
+        const entry = factories.entry(
+          ScrolledEntry,
+          {
+            metadata: {
+              configuration: {
+                defaultCaptionVariant: 'inverted'
+              }
+            }
+          },
+          {
+            entryTypeSeed: normalizeSeed({
+              contentElements: []
+            })
+          }
+        );
+
+        const contentElement = new entry.contentElements.model({
+          typeName: 'elementNotSupportingCaption'
+        });
+        contentElement.applyDefaultConfiguration({entry});
+
+        expect(contentElement.configuration.has('captionVariant')).toEqual(false);
+      });
+    });
   });
 
   describe('#getEditorPath', () => {

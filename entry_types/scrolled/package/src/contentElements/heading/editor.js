@@ -13,6 +13,12 @@ editor.contentElementTypes.register('heading', {
 
   defaultConfig: {width: contentElementWidths.xl, marginTop: 'none'},
 
+  defaultsInputs() {
+    this.input('hyphens', SelectInputView, {
+      values: ['auto', 'manual']
+    });
+  },
+
   configurationEditor({entry}) {
     this.listenTo(this.model, 'change:hyphens', this.refresh);
 

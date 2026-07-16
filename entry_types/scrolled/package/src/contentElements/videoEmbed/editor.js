@@ -9,6 +9,7 @@ editor.contentElementTypes.register('videoEmbed', {
   category: 'media',
   supportedPositions: ['inline', 'side', 'sticky', 'standAlone', 'left', 'right'],
   supportedWidthRange: ['xxs', 'full'],
+  supportedCaptions: true,
   supportedStyles: ['boxShadow', 'outline'],
 
   configurationEditor({entry}) {

@@ -68,6 +68,26 @@ export const EditDefaultsView = EditConfigurationView.extend({
 
       this.input('defaultContentElementFullWidthInPhoneLayout', CheckBoxInputView);
 
+      const [captionVariants, captionVariantTexts] =
+        entry.getComponentVariants({name: 'figureCaption'});
+
+      if (captionVariants.length) {
+        this.input('defaultCaptionVariant', SelectInputView, {
+          includeBlank: true,
+          blankTranslationKey: 'pageflow_scrolled.editor.' +
+                               'common_content_element_attributes.' +
+                               'captionVariant.blank',
+          values: captionVariants,
+          texts: captionVariantTexts
+        });
+      }
+
+      if (editor.entryType.supportsExtendedFileRights) {
+        this.input('defaultFileRightsDisplay', SelectInputView, {
+          values: ['credits', 'inline']
+        });
+      }
+
       const tabView = this;
       editor.contentElementTypes.toArray().forEach(contentElementType => {
         if (contentElementType.defaultsInputs) {

@@ -20,6 +20,7 @@ editor.contentElementTypes.register('hotspots', {
   category: 'interactive',
   supportedPositions: ['inline', 'side', 'sticky', 'standAlone', 'left', 'right', 'backdrop'],
   supportedWidthRange: ['xxs', 'full'],
+  supportedCaptions: true,
   supportedStyles: ['boxShadow', 'outline'],
 
   editorPath(contentElement) {

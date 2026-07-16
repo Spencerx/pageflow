@@ -23,7 +23,8 @@ export const FileUploader = Object.extend({
       file_name: upload.name,
       display_name: upload.name,
       content_type: upload.type,
-      file_size: upload.size
+      file_size: upload.size,
+      configuration: this.defaultConfiguration(fileType, editor)
     }, {
       fileType: fileType
     });
@@ -66,6 +67,22 @@ export const FileUploader = Object.extend({
       function() {
         file.destroy();
       });
+  },
+
+  defaultConfiguration: function(fileType, editor) {
+    var configuration = {};
+
+    if (editor.entryType && editor.entryType.supportsExtendedFileRights &&
+        !fileType.noExtendedFileRights) {
+      var rightsDisplay = this.entry.metadata &&
+                          this.entry.metadata.configuration.get('defaultFileRightsDisplay');
+
+      if (rightsDisplay) {
+        configuration.rights_display = rightsDisplay;
+      }
+    }
+
+    return configuration;
   },
 
   submit: function() {

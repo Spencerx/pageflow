@@ -1559,6 +1559,19 @@ de:
             inline_help: |-
               Standardmäßig Elemente auf kleineren Bildschirmen
               die gesamte Breite des Viewports nutzen lassen.
+          defaultCaptionVariant:
+            label: Beschriftungsvariante
+            inline_help: Standard-Darstellung der Beschriftungen neuer Elemente.
+          defaultFileRightsDisplay:
+            label: Rechteanzeige hochgeladener Dateien
+            inline_help: |-
+              Lege fest, ob die Rechteangabe neu hochgeladener Dateien in
+              der zusammenfassenden Liste in der Info-Box angezeigt werden
+              soll oder unmittelbar an der Stelle im Beitrag, wo die Datei
+              verwendet wird.
+            values:
+              credits: In der Info-Box
+              inline: Am verwendenden Element
       typography_sizes:
         xxxl: Riesig
         xxl: Extra groß

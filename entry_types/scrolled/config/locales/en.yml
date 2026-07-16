@@ -1542,6 +1542,18 @@ en:
             inline_help: |-
               By default, make elements span the full width of the
               viewport on smaller screens.
+          defaultCaptionVariant:
+            label: Caption variant
+            inline_help: Default look of captions of newly added elements.
+          defaultFileRightsDisplay:
+            label: Display rights of uploaded files
+            inline_help: |-
+              Decide if the credit note of newly uploaded files should be
+              displayed in the summary list in the info box, or right at
+              the place in the entry where the file is used.
+            values:
+              credits: In the info box
+              inline: At the element where it is used
       typography_sizes:
         xxxl: Huge
         xxl: Extra large

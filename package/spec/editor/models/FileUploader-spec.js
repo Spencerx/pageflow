@@ -142,6 +142,62 @@ describe('FileUploader', () => {
           fileUploader.add(nonNestedUpload, {editor: editor});
         }).toThrowError(InvalidNestedTypeError);
       });
+
+      it('seeds rights_display from defaultFileRightsDisplay entry metadata', () => {
+        testContext.entry.metadata.configuration.set('defaultFileRightsDisplay', 'inline');
+        var editor = new EditorApi();
+        editor.registerEntryType('test', {supportsExtendedFileRights: true});
+        var fileUploader = new FileUploader({
+          entry: testContext.entry,
+          fileTypes: testContext.fileTypes
+        });
+        var upload = {name: 'image.png', type: 'image/png'};
+        var result;
+
+        fileUploader.add(upload, {editor: editor}).then(function(file) {
+          result = file;
+        });
+        fileUploader.submit();
+
+        expect(result.configuration.get('rights_display')).toBe('inline');
+      });
+
+      it('does not seed rights_display without a default', () => {
+        var editor = new EditorApi();
+        editor.registerEntryType('test', {supportsExtendedFileRights: true});
+        var fileUploader = new FileUploader({
+          entry: testContext.entry,
+          fileTypes: testContext.fileTypes
+        });
+        var upload = {name: 'image.png', type: 'image/png'};
+        var result;
+
+        fileUploader.add(upload, {editor: editor}).then(function(file) {
+          result = file;
+        });
+        fileUploader.submit();
+
+        expect(result.configuration.has('rights_display')).toBe(false);
+      });
+
+      it('does not seed rights_display when entry type lacks extended file rights', () => {
+        testContext.entry.metadata.configuration.set('defaultFileRightsDisplay', 'inline');
+        var editor = new EditorApi();
+        editor.registerEntryType('test', {});
+        var fileUploader = new FileUploader({
+          entry: testContext.entry,
+          fileTypes: testContext.fileTypes
+        });
+        var upload = {name: 'image.png', type: 'image/png'};
+        var result;
+
+        fileUploader.add(upload, {editor: editor}).then(function(file) {
+          result = file;
+        });
+        fileUploader.submit();
+
+        expect(result.configuration.has('rights_display')).toBe(false);
+      });
     });
 
     describe('nested file', () => {
