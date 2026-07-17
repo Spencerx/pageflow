@@ -23,4 +23,6 @@ export {EditMotifAreaDialogView} from './views/EditMotifAreaDialogView';
 export {ImageModifierListInputView} from './views/inputs/ImageModifierListInputView';
 export {InlineFileRightsMenuItem} from './models/InlineFileRightsMenuItem';
 
+export {defineEntryDefaultsInputsFromSeed} from './views/EditDefaultsView';
+
 Object.assign(pageflow, globalInterop);

@@ -24,6 +24,9 @@ describe('EditDefaultsView', () => {
     'pageflow_scrolled.editor.edit_defaults.attributes.defaultSectionPaddingBottom.label': 'Default bottom padding',
     'pageflow_scrolled.editor.edit_defaults.attributes.defaultContentElementEnableFullscreen.label': 'Enable fullscreen',
     'pageflow_scrolled.editor.edit_defaults.attributes.defaultContentElementFullWidthInPhoneLayout.label': 'Full width in phone layout',
+    'pageflow_scrolled.editor.edit_defaults.attributes.defaultCaptionVariant.label': 'Default caption variant',
+    'pageflow_scrolled.editor.edit_defaults.attributes.defaultFileRightsDisplay.label': 'Default rights display',
+    'pageflow_scrolled.editor.common_content_element_attributes.captionVariant.blank': '(Default)',
     'pageflow_scrolled.editor.edit_defaults.content_elements_info': 'Changes to these settings have no effect on existing elements.',
     'pageflow_scrolled.editor.section_padding_visualization.top_padding': 'TopPadding',
     'pageflow_scrolled.editor.section_padding_visualization.bottom_padding': 'Bottom'
@@ -82,6 +85,55 @@ describe('EditDefaultsView', () => {
     const configurationEditor = ConfigurationEditor.find(view);
 
     expect(configurationEditor.inputPropertyNames()).toContain('defaultContentElementFullWidthInPhoneLayout');
+  });
+
+  it('contains defaultFileRightsDisplay select input', () => {
+    const entry = createEntry({});
+
+    const view = new EditDefaultsView({
+      model: entry.metadata,
+      entry
+    });
+
+    const {getByRole} = renderBackboneView(view);
+    fireEvent.click(getByRole('tab', {name: 'New Elements'}));
+    const configurationEditor = ConfigurationEditor.find(view);
+
+    expect(configurationEditor.inputPropertyNames()).toContain('defaultFileRightsDisplay');
+  });
+
+  it('contains defaultCaptionVariant select input if theme defines caption variants', () => {
+    const entry = createEntry({
+      themeOptions: {
+        properties: {'figureCaption-inverted': {}}
+      }
+    });
+
+    const view = new EditDefaultsView({
+      model: entry.metadata,
+      entry
+    });
+
+    const {getByRole} = renderBackboneView(view);
+    fireEvent.click(getByRole('tab', {name: 'New Elements'}));
+    const configurationEditor = ConfigurationEditor.find(view);
+
+    expect(configurationEditor.inputPropertyNames()).toContain('defaultCaptionVariant');
+  });
+
+  it('omits defaultCaptionVariant select input if theme has no caption variants', () => {
+    const entry = createEntry({});
+
+    const view = new EditDefaultsView({
+      model: entry.metadata,
+      entry
+    });
+
+    const {getByRole} = renderBackboneView(view);
+    fireEvent.click(getByRole('tab', {name: 'New Elements'}));
+    const configurationEditor = ConfigurationEditor.find(view);
+
+    expect(configurationEditor.inputPropertyNames()).not.toContain('defaultCaptionVariant');
   });
 
   it('shows info box in content elements tab', () => {

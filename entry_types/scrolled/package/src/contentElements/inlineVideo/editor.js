@@ -38,6 +38,7 @@ editor.contentElementTypes.register('inlineVideo', {
   category: 'media',
   supportedPositions: ['inline', 'side', 'sticky', 'standAlone', 'left', 'right', 'backdrop'],
   supportedWidthRange: ['xxs', 'full'],
+  supportedCaptions: true,
   supportedStyles: ['boxShadow', 'outline'],
 
   defaultsInputs() {

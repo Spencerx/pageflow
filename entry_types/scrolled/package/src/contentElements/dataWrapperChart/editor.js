@@ -10,6 +10,7 @@ editor.contentElementTypes.register('dataWrapperChart', {
   pictogram,
   supportedPositions: ['inline', 'side', 'sticky', 'standAlone', 'left', 'right'],
   supportedWidthRange: ['xxs', 'full'],
+  supportedCaptions: true,
   supportedStyles: ['boxShadow', 'outline'],
 
   configurationEditor({entry}) {

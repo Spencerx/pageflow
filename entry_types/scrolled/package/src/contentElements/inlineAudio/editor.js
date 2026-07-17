@@ -18,6 +18,7 @@ editor.contentElementTypes.register('inlineAudio', {
   category: 'media',
   supportedPositions: ['inline', 'side', 'sticky', 'standAlone', 'left', 'right'],
   supportedWidthRange: ['xxs', 'full'],
+  supportedCaptions: true,
   supportedStyles: [
     {
       name: 'boxShadow',
