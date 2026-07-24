@@ -73,6 +73,34 @@ describe('ScrolledEntry', () => {
       expect(colors).toEqual(['#600']);
     });
 
+    it('includes shadowColor of shadow sections', () => {
+      const entry = factories.entry(
+        ScrolledEntry,
+        {},
+        {
+          entryTypeSeed: normalizeSeed({
+            sections: [
+              {
+                configuration: {
+                  appearance: 'shadow',
+                  shadowColor: '#700'
+                }
+              },
+              {
+                configuration: {
+                  shadowColor: '#070'
+                }
+              }
+            ]
+          })
+        }
+      );
+
+      const colors = entry.getUsedSectionBackgroundColors();
+
+      expect(colors).toEqual(['#700', '#070']);
+    });
+
     it('ignores blank colors', () => {
       const entry = factories.entry(
         ScrolledEntry,

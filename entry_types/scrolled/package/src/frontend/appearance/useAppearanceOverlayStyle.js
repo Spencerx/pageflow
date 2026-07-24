@@ -3,7 +3,7 @@ import {useMemo} from 'react';
 import {isTranslucentColor} from '../utils/isTranslucentColor';
 
 export function useAppearanceOverlayStyle(section) {
-  const {appearance, cardSurfaceColor, splitOverlayColor, overlayBackdropBlur} = section;
+  const {appearance, cardSurfaceColor, splitOverlayColor, shadowColor, overlayBackdropBlur} = section;
 
   return useMemo(() => {
     if (appearance === 'cards') {
@@ -12,9 +12,12 @@ export function useAppearanceOverlayStyle(section) {
     else if (appearance === 'split') {
       return overlayStyle(splitOverlayColor, overlayBackdropBlur, true);
     }
+    else if (!appearance || appearance === 'shadow') {
+      return shadowColor ? {'--shadow-color': shadowColor} : {};
+    }
 
     return {};
-  }, [appearance, cardSurfaceColor, splitOverlayColor, overlayBackdropBlur]);
+  }, [appearance, cardSurfaceColor, splitOverlayColor, shadowColor, overlayBackdropBlur]);
 }
 
 function overlayStyle(color, backdropBlur, blurByDefault) {

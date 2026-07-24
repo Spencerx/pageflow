@@ -1260,6 +1260,11 @@ en:
             label: Cards background color
             auto: "(Auto)"
             auto_color: "Auto color"
+          shadowColor:
+            inline_help: Color of the gradients that improve legibility of the content in front of the backdrop.
+            label: Shadow color
+            auto: "(Auto)"
+            auto_color: "Auto color"
           splitOverlayColor:
             inline_help: Color of the overlay behind the content.
             label: Overlay color

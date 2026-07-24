@@ -23,7 +23,8 @@ export default function GradientShadow(props) {
 
   return (
     <div className={classNames(styles[`align-${props.align}`],
-                               props.inverted ? styles.light : styles.dark)}>
+                               props.inverted ? styles.light : styles.dark)}
+         style={props.overlayStyle}>
       <div className={styles.dynamic}
            style={{opacity: props.dynamicShadowOpacity * opacityFactor}}>
         <Fullscreen />

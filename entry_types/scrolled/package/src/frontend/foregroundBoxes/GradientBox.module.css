@@ -32,11 +32,11 @@
 }
 
 .shadowDark {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px,rgba(0, 0, 0, 0.5) 100px,rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px,color-mix(in srgb, var(--shadow-color, #000), transparent 50%) 100px,color-mix(in srgb, var(--shadow-color, #000), transparent 50%) 100%);
 }
 
 .shadowLight {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0px,rgba(255, 255, 255, 0.5) 100px,rgba(255, 255, 255, 0.5) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0px,color-mix(in srgb, var(--shadow-color, #fff), transparent 50%) 100px,color-mix(in srgb, var(--shadow-color, #fff), transparent 50%) 100%);
 }
 
 @media print {
