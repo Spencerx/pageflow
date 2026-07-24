@@ -99,7 +99,7 @@ function buildEntry(entry, contentElement, item, getPreviewConfiguration) {
     widgets: entry.widgets,
     files: entry.files,
 
-    storylines: new Backbone.Collection([section.chapter.storyline]),
+    storylines: entry.storylines,
     chapters: new Backbone.Collection([section.chapter]),
     sections: new Backbone.Collection([fakeSection]),
     contentElements: new Backbone.Collection([
