@@ -22,37 +22,37 @@
 /* dark shadow */
 .align-right.dark .static,
 .align-left.dark .static {
-  background: linear-gradient(to right, #000 0%,rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, var(--shadow-color, #000) 0%,rgba(0, 0, 0, 0) 100%);
 }
 
 @media (min-width: 950px) {
   .align-right.dark .static {
-    background: linear-gradient(to left, #000 0%,rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to left, var(--shadow-color, #000) 0%,rgba(0, 0, 0, 0) 100%);
   }
 }
 
 .dark .dynamic,
 .align-center.dark .static,
 .align-centerRagged.dark .static {
-  background: rgba(0, 0, 0, 0.9);
+  background: color-mix(in srgb, var(--shadow-color, #000), transparent 10%);
 }
 
 /* light shadow */
 .align-right.light .static,
 .align-left.light .static {
-  background: linear-gradient(to right, #fff 0%,rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to right, var(--shadow-color, #fff) 0%,rgba(255, 255, 255, 0) 100%);
 }
 
 @media (min-width: 950px) {
   .align-right.light .static {
-    background: linear-gradient(to left, #fff 0%,rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to left, var(--shadow-color, #fff) 0%,rgba(255, 255, 255, 0) 100%);
   }
 }
 
 .light .dynamic,
 .align-center.light .static,
 .align-centerRagged.light .static {
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--shadow-color, #fff), transparent 10%);
 }
 
 @media print {

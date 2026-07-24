@@ -192,6 +192,15 @@ export const EditSectionView = EditConfigurationView.extend({
       });
       this.input('invert', CheckBoxInputView);
 
+      this.input('shadowColor', ColorInputView, {
+        visibleBinding: 'appearance',
+        visible: appearance => !appearance || appearance === 'shadow',
+        placeholder: I18n.t('pageflow_scrolled.editor.edit_section.attributes.shadowColor.auto'),
+        placeholderColorBinding: 'invert',
+        placeholderColor: invert => invert ? '#ffffff' : '#000000',
+        placeholderColorDescription: I18n.t('pageflow_scrolled.editor.edit_section.attributes.shadowColor.auto_color'),
+        swatches: backgroundColorSwatches
+      });
       this.input('staticShadowOpacity', SliderInputView, {
         defaultValue: 70,
         visibleBinding: 'appearance',

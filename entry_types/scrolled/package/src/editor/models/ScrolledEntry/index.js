@@ -404,16 +404,22 @@ export const ScrolledEntry = Entry.extend({
     const colors = new Set();
 
     this.sections.forEach(section => {
+      const appearance = section.configuration.get('appearance');
+
       if (section.configuration.get('backdropType') === 'color') {
         colors.add(section.configuration.get('backdropColor'));
       }
 
-      if (section.configuration.get('appearance') === 'cards') {
+      if (appearance === 'cards') {
         colors.add(section.configuration.get('cardSurfaceColor'));
       }
 
-      if (section.configuration.get('appearance') === 'split') {
+      if (appearance === 'split') {
         colors.add(section.configuration.get('splitOverlayColor'));
+      }
+
+      if (!appearance || appearance === 'shadow') {
+        colors.add(section.configuration.get('shadowColor'));
       }
     });
 

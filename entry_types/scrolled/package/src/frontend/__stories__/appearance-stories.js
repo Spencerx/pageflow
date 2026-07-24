@@ -231,9 +231,21 @@ storiesOf(`Frontend/Section Appearance`, module)
     }
   )
 
+storiesOf(`Frontend/Section Appearance`, module)
+  .add(
+    'Custom Shadow Color',
+    () => {
+      return (
+        <RootProviders seed={exampleSeed('shadow', {shadowColor: '#012a4a', short: true})}>
+          <Entry />
+        </RootProviders>
+      );
+    }
+  )
+
 function exampleSeed(
   appearance,
-  {short, invert, width, cardSurfaceColor,
+  {short, invert, width, cardSurfaceColor, shadowColor,
    themeOptions, positionedElementTypeName, includeWidths} = {}
 ) {
   const sectionBaseConfiguration = {
@@ -241,6 +253,7 @@ function exampleSeed(
     transition: 'reveal',
     fullHeight: true,
     cardSurfaceColor,
+    shadowColor,
     invert,
     width
   };

@@ -1276,6 +1276,11 @@ de:
             label: Kartenhintergrundfarbe
             auto: "(Automatisch)"
             auto_color: "Automatische Farbe"
+          shadowColor:
+            inline_help: Farbe der Verläufe, die die Lesbarkeit des Inhalts vor dem Hintergrund verbessern.
+            label: Schattenfarbe
+            auto: "(Automatisch)"
+            auto_color: "Automatische Farbe"
           splitOverlayColor:
             inline_help: Farbe des Overlays hinter dem Inhalt.
             label: Overlay-Farbe

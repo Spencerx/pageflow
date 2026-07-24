@@ -10,7 +10,7 @@ export default function GradientBox(props) {
                                  [styles.gradient]: props.motifAreaState.isContentPadded,
                                  [styles.long]: props.coverInvisibleNextSection
                                })}
-         style={{paddingTop: props.motifAreaState.paddingTop}}>
+         style={{...props.overlayStyle, paddingTop: props.motifAreaState.paddingTop}}>
       <div className={styles.wrapper}>
         <div className={classNames(styles.shadow,
                                    props.inverted ? styles.shadowLight : styles.shadowDark,

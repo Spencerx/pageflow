@@ -11,6 +11,22 @@ describe('useAppearanceOverlayStyle', () => {
     expect(result.current).toEqual({});
   });
 
+  it('returns shadow color custom property for shadow appearance', () => {
+    const {result} = renderHook(() =>
+      useAppearanceOverlayStyle({appearance: 'shadow', shadowColor: '#f00'})
+    );
+
+    expect(result.current).toEqual({'--shadow-color': '#f00'});
+  });
+
+  it('returns shadow color custom property for default appearance', () => {
+    const {result} = renderHook(() =>
+      useAppearanceOverlayStyle({shadowColor: '#f00'})
+    );
+
+    expect(result.current).toEqual({'--shadow-color': '#f00'});
+  });
+
   it('returns empty object for transparent appearance', () => {
     const {result} = renderHook(() =>
       useAppearanceOverlayStyle({appearance: 'transparent'})
